@@ -7,15 +7,27 @@
 //
 
 import UIKit
+import UserNotifications
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let center = UNUserNotificationCenter.current()
+//このcurrentは何？class funcって何？クラス？メソッド？？？？？？？？？？？？？？？？？？？？？？？
+        center.requestAuthorization(options: [.alert, .sound]){
+            (granted, error) in
+// アプリの初回起動時にユーザーに許可を求めるアラートを表示させる。
+        }
+        center.delegate = self
         return true
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresentnotification: UNNotification, withCompletionHandler completionHandler: @escaping(UNNotificationPresentationOptions) -> Void){
+        completionHandler([.alert, .sound])
     }
 
     // MARK: UISceneSession Lifecycle
